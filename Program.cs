@@ -4,6 +4,7 @@ using DesignPatterns.Creation.FactoryMethod;
 using DesignPatterns.Structural.Adapter;
 using DesignPatterns.Structural.Bridge;
 using DesignPatterns.Structural.Decorator;
+using DesignPatterns.Structural.Facade;
 
 // Behavior patterns
 
@@ -37,6 +38,8 @@ AdapterPatternExample.Run();
 // wrapper objects that contain the behaviors
 DecoratorPatternExample.Run();
 
+// Facade pattern - Provide a simplified interface to a library, a framework, or any other complex set of classes.
+FacadePatternExample.Run();
 
 Console.ReadLine();
 
