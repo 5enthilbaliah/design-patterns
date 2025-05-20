@@ -5,19 +5,19 @@ public interface ITransport
     void Deliver();
 }
 
-public class Truck : ITransport
-{
-    public void Deliver()
-    {
-        Console.WriteLine("Deliver via truck");
-    }
-}
-
 public class Ship : ITransport
 {
     public void Deliver()
     {
         Console.WriteLine("Deliver via ship");
+    }
+}
+
+public class Truck : ITransport
+{
+    public void Deliver()
+    {
+        Console.WriteLine("Deliver via truck");
     }
 }
 
