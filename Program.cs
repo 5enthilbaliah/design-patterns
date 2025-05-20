@@ -1,5 +1,6 @@
 ﻿using DesignPatterns.Behavior.Observer;
 using DesignPatterns.Behavior.Strategy;
+using DesignPatterns.Creation.FactoryMethod;
 using DesignPatterns.Structural.Decorator;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -36,6 +37,9 @@ services.AddKeyedScoped<INotifier, FacebookDecorator>("facebook", (sp, _) =>
     return new FacebookDecorator(defaultNotifier);
 });
 
+
+services.AddKeyedScoped<LogisticsBase, TruckLogistics>("truck");
+services.AddKeyedScoped<LogisticsBase, ShipLogistics>("ship");
 
 var serviceProvider = services.BuildServiceProvider();
 
@@ -86,7 +90,6 @@ observable.Unsubscribe(smsObserver2);
 observable.Notify("Hi all!!!");
 Console.WriteLine("---------------OBSERVER PATTERN ENDS--------------");
 
-
 // Decorator pattern - Attach new behaviors to objects by placing these objects inside special
 // wrapper objects that contain the behaviors
 Console.WriteLine("---------------DECORATOR PATTERN BEGINS--------------");
@@ -101,7 +104,17 @@ Console.WriteLine($"Total cost ${expressoWithSoyWithCaramel.TotalCost()}");
 
 Console.WriteLine("---------------DECORATOR PATTERN ENDS--------------");
 
+// Factory method pattern - provide an interface for creating objects in a superclass,
+// but allows subclasses to alter the type of objects that will be created
+// abstracts the object instantiation from client application 
+Console.WriteLine("---------------FACTORY METHOD PATTERN BEGINS--------------");
+var truckLogistics = serviceProvider.GetRequiredKeyedService<LogisticsBase>("truck");
+var shipLogistics = serviceProvider.GetRequiredKeyedService<LogisticsBase>("ship");
 
+truckLogistics.PlanDelivery();
+shipLogistics.PlanDelivery();
+
+Console.WriteLine("---------------FACTORY METHOD PATTERN ENDS--------------");
 
 Console.ReadLine();
 return;
