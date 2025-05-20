@@ -2,6 +2,7 @@
 using DesignPatterns.Behavior.Strategy;
 using DesignPatterns.Creation.FactoryMethod;
 using DesignPatterns.Structural.Adapter;
+using DesignPatterns.Structural.Bridge;
 using DesignPatterns.Structural.Decorator;
 
 // Behavior patterns
@@ -24,6 +25,10 @@ StrategyPatternExample.Run();
 FactoryMethodPatternExample.Run();
 
 // Structural
+
+// Bridge pattern - split a large class or a set of closely related classes into two separate hierarchies
+// —abstraction and implementation— which can be developed independently of each other
+BridgePatternExample.Run();
 
 // Adapter pattern - Allow objects with incompatible interfaces to collaborate
 AdapterPatternExample.Run();
