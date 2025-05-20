@@ -1,5 +1,6 @@
 ﻿using DesignPatterns.Behavior.Observer;
 using DesignPatterns.Behavior.Strategy;
+using DesignPatterns.Structural.Decorator;
 using Microsoft.Extensions.DependencyInjection;
 
 var services = new ServiceCollection();
@@ -21,6 +22,19 @@ services.AddKeyedScoped<INavigator, Navigator>("transport",
 services.AddScoped<IObservable, ConcreteObservable>();
 services.AddKeyedTransient<IObserver, EmailObserver>("email");
 services.AddKeyedTransient<IObserver, SmsObserver>("sms");
+
+
+services.AddKeyedScoped<INotifier, DefaultNotifier>("default");
+services.AddKeyedScoped<INotifier, SmsDecorator>("sms", (sp, _) =>
+{
+    var defaultNotifier = sp.GetRequiredKeyedService<INotifier>("default");
+    return new SmsDecorator(defaultNotifier);
+});
+services.AddKeyedScoped<INotifier, FacebookDecorator>("facebook", (sp, _) =>
+{
+    var defaultNotifier = sp.GetRequiredKeyedService<INotifier>("sms");
+    return new FacebookDecorator(defaultNotifier);
+});
 
 
 var serviceProvider = services.BuildServiceProvider();
@@ -71,6 +85,23 @@ observable.Subscribe(smsObserver3);
 observable.Unsubscribe(smsObserver2);
 observable.Notify("Hi all!!!");
 Console.WriteLine("---------------OBSERVER PATTERN ENDS--------------");
+
+
+// Decorator pattern - Attach new behaviors to objects by placing these objects inside special
+// wrapper objects that contain the behaviors
+Console.WriteLine("---------------DECORATOR PATTERN BEGINS--------------");
+var facebookNotifier = serviceProvider.GetRequiredKeyedService<INotifier>("facebook");
+facebookNotifier.Send("Decorated message");
+
+var expresso = new Expresso();
+var expressoWithSoy = new SoyDecorator(expresso);
+var expressoWithSoyWithCaramel = new CaramelDecorator(expressoWithSoy);
+Console.WriteLine($"Total cost ${expressoWithSoyWithCaramel.TotalCost()}");
+
+
+Console.WriteLine("---------------DECORATOR PATTERN ENDS--------------");
+
+
 
 Console.ReadLine();
 return;
